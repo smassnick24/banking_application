@@ -17,6 +17,18 @@ class BankAccount:
     def __repr__(self):
         return f"Account: {self._account_num}"
 
+    def get_name(self):
+        return self._name
+    
+    def get_acnt(self):
+        return self._account_num
+    
+    def get_route(self):
+        return self._routing_num
+    
+    def get_type(self):
+        return self._type
+    
     def get_bal(self):
         return self._bal
     
