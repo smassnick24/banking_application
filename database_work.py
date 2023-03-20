@@ -19,18 +19,18 @@ def register_new_account(account: BankAccount):
         return True
     
 def update_balance(account: BankAccount):
-    cur.execute(f"UPDATE accounts SET balance = {account.get_bal()} WHERE account_number = {account.get_acnt():.2f}")
+    cur.execute(f"UPDATE accounts SET balance = {account.get_bal():.2f} WHERE account_number = {account.get_acnt()}")
     conn.commit()
-    return True
+    balance = list(cur.execute(f"SELECT * FROM accounts WHERE account_number = {account.get_acnt()}").fetchall())[0][4]  # grabbing the balance [0] for first account [4] for the balance index of the tuple
+    return balance
 
 sam = BankAccount("Samuel Massnick", 1, 1, "Savings", 500.10)
 john = BankAccount("John Doe", 2, 2, "Checking", 5)
 ian = BankAccount("Ian Dean", 3, 3, "Blah", 100_000_000)
 
-sam.deposit(500)
+sam.deposit(750)
 
-update_balance(sam)
-
+print(update_balance(sam))
 
 # register_new_account(BankAccount("Samuel Massnick", 1, 1, "Savings", 500.10))
 # register_new_account(BankAccount("John Doe", 2, 2, "Checking", 5))
