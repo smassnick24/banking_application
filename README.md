@@ -9,3 +9,21 @@ For this project, I am going to create a banking system
     For example, two accounts cant have the same routing or account number
 (3) Then a GUI using Tkinter will be developed to implement a login/register system that have the functionalities to create a new account,
     Deposit and Withdraw funds, and transfer between accounts
+
+
+APPLICATION FLOW:
+
+While var_continue:
+    
+    login/register -> bool:
+    if true:
+        1) create account
+        2) deposit
+        3) withdraw
+        4) display account
+    else:
+        input -> would you like to continue?
+        if true:
+            var_continue = true
+        elif not true:
+            var_continue = false

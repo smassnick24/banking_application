@@ -6,6 +6,7 @@ cur = conn.cursor()
 
 def define_database():
     cur.execute("CREATE TABLE IF NOT EXISTS accounts (name TEXT, account_number INTEGER, routing_number INTEGER, account_type TEXT, balance FLOAT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
     conn.commit()
 
 def register_new_account(account: BankAccount):
