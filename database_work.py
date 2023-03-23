@@ -31,7 +31,7 @@ def update_balance(account: BankAccount):
 
 
 def register_account(username, password):
-    if len(cur.execute(f"SELECT * FROM users WHERE username = {username}").fetchall()) != 0:
+    if len(cur.execute(f"SELECT * FROM users WHERE username = '{username}'").fetchall()) != 0:
         print("Username already taken")
         return False
     else:
@@ -42,21 +42,25 @@ def register_account(username, password):
 
 
 def login(username, password):
-    pass
+    if cur.execute(f"SELECT * FROM users WHERE username = {username} AND password = {password}"):
+        print("Logged in successfully")
+        print(cur.execute(f"SELECT * FROM users WHERE username = {username} AND password = {password}").fetchall())
+        return True
+    else:
+        print("Username or Password Incorrect")
+        return False
 
 
 if __name__ == "__main__":
-    sam = BankAccount("Samuel Massnick", 1, 1, "Savings", 500.10)
-    john = BankAccount("John Doe", 2, 2, "Checking", 5)
-    ian = BankAccount("Ian Dean", 3, 3, "Blah", 100_000_000)
-    sam.deposit(750)
-    print(update_balance(sam))
+    define_database()
+    register_new_bankaccount(BankAccount("Michael", 15, 15, "Savings", 500.10))
+    register_account("smassnick24", "nice")
 
 
 
 
 
-# register_new_account(BankAccount("Samuel Massnick", 1, 1, "Savings", 500.10))
+
 # register_new_account(BankAccount("John Doe", 2, 2, "Checking", 5))
 # register_new_account(BankAccount("Ian Dean", 3, 3, "Blah", 100_000_000))
 
