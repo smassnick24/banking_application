@@ -17,7 +17,7 @@ While var_continue:
     
     login/register -> bool:
     if true:
-        1) create account
+        1) create new bank account
         2) deposit
         3) withdraw
         4) display account
