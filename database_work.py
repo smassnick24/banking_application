@@ -38,10 +38,8 @@ def update_balance(account: BankAccount):
 
 def register_account(username, email, password):
     if len(cur.execute(f"SELECT * FROM users WHERE username = '{username}'").fetchall()) != 0:
-        print("Username already taken")
         return False
     else:
-        print("Account Registered")
         cur.execute(f"INSERT INTO users VALUES('{username}', '{email}', '{password}')")
         conn.commit()
         return True
@@ -49,9 +47,7 @@ def register_account(username, email, password):
 
 def login(username, password):
     if cur.execute(f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"):
-        print("Logged in successfully")
         print(cur.execute(f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'").fetchall())
         return True
     else:
-        print("Username or Password Incorrect")
         return False
