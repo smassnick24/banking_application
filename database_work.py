@@ -6,7 +6,7 @@ cur = conn.cursor()
 
 def define_database():
     cur.execute("CREATE TABLE IF NOT EXISTS accounts (name TEXT, account_number INTEGER, routing_number INTEGER, account_type TEXT, balance FLOAT)")
-    cur.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, email TEXT, password TEXT)")
     conn.commit()
 
 def register_new_bankaccount(account: BankAccount):
@@ -30,13 +30,13 @@ def update_balance(account: BankAccount):
     return balance
 
 
-def register_account(username, password):
+def register_account(username, email, password):
     if len(cur.execute(f"SELECT * FROM users WHERE username = '{username}'").fetchall()) != 0:
         print("Username already taken")
         return False
     else:
         print("Account Registered")
-        cur.execute(f"INSERT INTO users VALUES('{username}', '{password}')")
+        cur.execute(f"INSERT INTO users VALUES('{username}', '{email}', '{password}')")
         conn.commit()
         return True
 
@@ -50,19 +50,6 @@ def login(username, password):
         print("Username or Password Incorrect")
         return False
 
-
-if __name__ == "__main__":
-    define_database()
-    register_new_bankaccount(BankAccount("Michael", 15, 15, "Savings", 500.10))
-    register_account("smassnick24", "nice")
-
-
-
-
-
-
-# register_new_account(BankAccount("John Doe", 2, 2, "Checking", 5))
-# register_new_account(BankAccount("Ian Dean", 3, 3, "Blah", 100_000_000))
 
 
 

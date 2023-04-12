@@ -3,11 +3,15 @@ import tkinter as tk
 import sqlite3
 import re
 
+from bankaccount import BankAccount
+import database_work as db
+
 
 # --- LOGIN FRAME ---
 class LoginFrame(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
+        db.define_database()
 
         # House-Keeping stuff
         self.font = ctk.CTkFont(family="Rockwell", size=14)
@@ -28,8 +32,10 @@ class LoginFrame(tk.Frame):
         # entry widgets with cool masking feature
         self.username_entry = ctk.CTkEntry(self, textvariable=self.user_var, font=self.font, corner_radius=25)
         self.password_entry = ctk.CTkEntry(self, textvariable=self.pass_var, font=self.font, show="*", corner_radius=25)
-        self.show_password = ctk.CTkButton(self, text="Show", font=self.font, command=self._show_password, corner_radius=25, width=10)
-        self.submit = ctk.CTkButton(self, text="Submit", font=self.font, command=lambda: self._login(), corner_radius=25)
+        self.show_password = ctk.CTkButton(self, text="Show", font=self.font, command=self._show_password,
+                                           corner_radius=25, width=10)
+        self.submit = ctk.CTkButton(self, text="Submit", font=self.font, command=lambda: self._login(),
+                                    corner_radius=25)
 
         # LoginFrame's database methods
         self.connection = sqlite3.connect("bank_storage.db")
@@ -57,17 +63,16 @@ class LoginFrame(tk.Frame):
             self.status.configure(text="Status: Invalid")
         else:
             self.status.configure(text="Status: Valid")
-            user_temp: str = self.user_var.get()
-            pass_temp: str = self.pass_var.get()
+            db.login(self.user_var.get, self.pass_var.get())
             self.username_entry.delete(0, tk.END)
             self.password_entry.delete(0, tk.END)
-            print(f"Username: {user_temp}\nPassword: {pass_temp}")
 
 
 # --- Register Frame ---
 class RegisterFrame(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
+        db.define_database()
 
         # House-Keeping Stuff
         self.font = ctk.CTkFont(family="Rockwell", size=14)
@@ -84,15 +89,17 @@ class RegisterFrame(tk.Frame):
         self.username_entry = ctk.CTkEntry(self, textvariable=self.user_reg_var, font=self.font, corner_radius=25)
         self.password_entry = ctk.CTkEntry(self, textvariable=self.pass_var, font=self.font, show="*", corner_radius=25)
         self.email_entry = ctk.CTkEntry(self, textvariable=self.email_var, font=self.font, corner_radius=25)
-        self.show_password = ctk.CTkButton(self, text="Show", font=self.font, command=self._show_password, corner_radius=25, width=10)
-        self.submit = ctk.CTkButton(self, text="Submit", font=self.font, command=lambda: self._register(), corner_radius=25)
+        self.show_password = ctk.CTkButton(self, text="Show", font=self.font, command=self._show_password,
+                                           corner_radius=25, width=10)
+        self.submit = ctk.CTkButton(self, text="Submit", font=self.font, command=lambda: self._register(),
+                                    corner_radius=25)
 
         # defining labels
         self.status = ctk.CTkLabel(self, text="Status: Normal", font=self.font, corner_radius=25)
         self.header = ctk.CTkLabel(self, text="REGISTER", font=self.header_font, corner_radius=25)
         self.user_label = ctk.CTkLabel(self, text="Username: ", font=self.font)
         self.pass_label = ctk.CTkLabel(self, text="Password: ", font=self.font)
-        self.email_label= ctk.CTkLabel(self, text="Email: ", font=self.font)
+        self.email_label = ctk.CTkLabel(self, text="Email: ", font=self.font)
 
         # LoginFrame's database methods
         self.connection = sqlite3.connect("bank_storage.db")
@@ -109,7 +116,6 @@ class RegisterFrame(tk.Frame):
         self.submit.place(x=500, y=325)
         self.status.place(x=500, y=400)
 
-
     def _show_password(self):
         if self.hidden == 1:
             self.password_entry.configure(show="")
@@ -123,9 +129,7 @@ class RegisterFrame(tk.Frame):
             self.status.configure(text="Status: Invalid Entry")
         else:
             if self._is_valid_email(self.email_var.get()):
-                print(f"Username: {self.user_reg_var.get()}")
-                print(f"Email: {self.email_var.get()}")
-                print(f"Password: {self.pass_var.get()}")
+                db.register_account(self.user_reg_var.get(), self.email_var.get(), self.pass_var.get())
                 self.username_entry.delete(0, tk.END)
                 self.password_entry.delete(0, tk.END)
                 self.email_entry.delete(0, tk.END)
