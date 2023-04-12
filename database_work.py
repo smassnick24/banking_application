@@ -42,9 +42,9 @@ def register_account(username, password):
 
 
 def login(username, password):
-    if cur.execute(f"SELECT * FROM users WHERE username = {username} AND password = {password}"):
+    if cur.execute(f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"):
         print("Logged in successfully")
-        print(cur.execute(f"SELECT * FROM users WHERE username = {username} AND password = {password}").fetchall())
+        print(cur.execute(f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'").fetchall())
         return True
     else:
         print("Username or Password Incorrect")
