@@ -41,7 +41,7 @@ class LoginFrame(tk.Frame):
         self.connection = sqlite3.connect("bank_storage.db")
         self.cursor = self.connection.cursor()
 
-        self.header.place(x=500, y=0)
+        self.header.place(x=450, y=0)
         self.user_label.place(x=400, y=100)
         self.username_entry.place(x=500, y=100)
         self.pass_label.place(x=400, y=175)
@@ -105,7 +105,7 @@ class RegisterFrame(tk.Frame):
         self.connection = sqlite3.connect("bank_storage.db")
         self.cursor = self.connection.cursor()
 
-        self.header.place(x=500, y=0)
+        self.header.place(x=450, y=0)
         self.user_label.place(x=400, y=100)
         self.username_entry.place(x=500, y=100)
         self.email_label.place(x=400, y=175)
@@ -151,6 +151,6 @@ if __name__ == "__main__":
     test.geometry("1072x603")
 
     # login.pack(expand=True, fill=tk.BOTH)
-    register.pack(expand=True, fill=tk.BOTH)
+    register.pack(expand=True, fill=ctk.BOTH)
 
     test.mainloop()
